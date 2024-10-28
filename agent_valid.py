@@ -1,12 +1,25 @@
 from pydantic import BaseModel
 from openai import OpenAI
 from typing import Literal
-from search import EmbeddingFaiss
-from prompt import ACTION_PROMPT, SEARCH_PROMPT, NORMAL_PROMPT
 import copy
 import json
 import utils
+import os
 
+ANSWER_PROMPT = """
+당신은 사용자에게 유용한 정보를 제공하는 AI 어시스턴트이다.
+당신은 사용자의 질문에 대해 문서의 내용을 보고 답변을 해야한다.
+답변은 답에 해당하는 한 단어만 출력한다.
+만약 문서에서 답을 찾을 수 없을 경우 답변으로 UNKNOWN을 출력해라.
+"""
+
+ACTION_PROMPT = """
+사용자의 입력에 알맞는 Action을 골라야한다.
+Action의 목록과 설명은 아래와 같다.
+reset: assistant와의 대화 기록을 삭제한다.
+QA: 사용자의 질문에 대해 답을 한다.
+edit: 검색된 외부지식의 내용을 수정한다.
+"""
 
 EDIT_PROMPT = """
 당신은 검색된 문서에 사용자의 요구에 따라 내용을 추가하거나 삭제하거나 또는 수정해야한다.
@@ -42,7 +55,6 @@ CHANGE_PROMPT = """
 수정이 완료된 문장을 change_text에 넣고, 그 위치를 idx로 지정해라.
 """
 
-
 title2path = {
     "오타니 쇼헤이": "./DB/docs_0.json",
     "손흥민": "./DB/docs_1.json",
@@ -67,10 +79,7 @@ title2path = {
 }
 
 class ActionResponse(BaseModel):
-    action: Literal["reset", "normal", "search", "edit",]
-
-class SearchResponse(BaseModel):
-    target: str
+    action: Literal["reset", "QA", "edit",]
 
 class changeResponse(BaseModel):
     idx: int
@@ -83,15 +92,44 @@ class addResponse(BaseModel):
 class deleteResponse(BaseModel):
     idx: int
 
+class QAResponse(BaseModel):
+    answer: str
+
+class EmbeddingFaiss():
+    def __init__(self, explorer, document_dict, dir_path):
+        self.explorer = explorer
+        self.document_dict = document_dict
+        self.dir_path = dir_path
+    
+    def info_maker(self, data):
+        info = ""
+        for key in data.keys():
+            if type(data[key]) == dict:
+                info += f"{key}:"
+                info += " {\n"
+                for key2 in data[key].keys():
+                    info += f"\t{key2}\n"
+                info += "}\n"
+            else:
+                info += f"{key}\n"
+        return info
+
+    def __call__(self, document):
+        document_path = os.path.join(self.dir_path, self.document_dict[document])
+        with open(document_path, 'r') as f:
+            data = json.load(f)
+        info = self.info_maker(data)
+        return info, data
+
+
 class BiRAGAgent():
-    def __init__(self, explorer, document_dict):
+    def __init__(self, explorer, document_dict, search_target):
         self.client = OpenAI()
         self.model = "gpt-4o-2024-08-06"
         self.search_engine = EmbeddingFaiss(explorer, document_dict, "./DB")
         self.history = []
-        self.data = None
-        self.search_target = ""
-        self.info = None
+        self.search_target = search_target
+        self.info, self.data = self.search_engine(search_target)
 
     def make_message(self, role, content):
         return {"role": role, "content": content}
@@ -111,6 +149,33 @@ class BiRAGAgent():
         
         return response.choices[0].message.content
     
+    def save_json(self):
+        file_path = title2path[self.search_target]
+        with open(file_path, 'w', encoding='utf-8') as f:
+            json.dump(self.data, f, indent="\t", ensure_ascii=False)
+
+    def reset_history(self):
+        self.history = []
+        return
+    
+    def action_selector(self, user_input):
+        user_message = self.make_message("user", user_input)
+        self.history.append(user_message)
+        action_messages = [self.make_message("system", ACTION_PROMPT)]
+        for history in self.history:
+            action_messages.append(history)
+        action_type = self.gpt_agent_pydantic(action_messages, ActionResponse).action
+        return action_type
+    
+    def answer_Q(self):
+        self.history.append(self.make_message("assistant", f"{self.search_target} 문서 검색\n{str(self.data)}\n"))
+        answer_messages = [self.make_message("system",ANSWER_PROMPT )]
+        for history in self.history:
+            answer_messages.append(history)
+        answer = self.gpt_agent_pydantic(answer_messages, QAResponse).answer
+        self.history.append(self.make_message("assistant", answer))
+        return answer
+
     def create_pathfinder_schema(self, subtitle_candidates):
         response_format = {
             "type": "json_schema",
@@ -137,55 +202,6 @@ class BiRAGAgent():
             }
         }
         return response_format
-
-    def gpt_agent(self):
-        system_prompt = self.make_message("system", NORMAL_PROMPT)
-        response = self.client.chat.completions.create(
-            model=self.model,
-            messages=[system_prompt] + self.history,
-        )
-        return response.choices[0].message.content.strip()
-    
-    def gpt_agent_stream(self):
-        system_prompt = self.make_message("system", NORMAL_PROMPT)
-        stream = self.client.chat.completions.create(
-            model=self.model,
-            messages=[system_prompt] + self.history,
-            stream=True
-        )
-        return stream
-        
-    def reset_history(self):
-        self.history = []
-        return
-    
-    def action_selector(self, user_input):
-        user_message = self.make_message("user", user_input)
-        self.history.append(user_message)
-        action_messages = [self.make_message("system", ACTION_PROMPT)]
-        for history in self.history:
-            action_messages.append(history)
-        action_type = self.gpt_agent_pydantic(action_messages, ActionResponse).action
-        return action_type
-
-    def search_document(self):
-        search_messages = [self.make_message("system", SEARCH_PROMPT)]
-        for history in self.history:
-            search_messages.append(history)
-        search_target = self.gpt_agent_pydantic(search_messages, SearchResponse).target
-        document, info, data = self.search_engine(search_target)
-        self.search_target = document
-        return search_target, data, info
-    
-    def answer_Q(self, search_target, data):
-        self.history.append(self.make_message("assistant", f"{search_target} 검색 완료\n{str(data)}\n답변:"))
-        stream = self.gpt_agent_stream()
-        return stream
-
-    def save_json(self):
-        file_path = title2path[self.search_target]
-        with open(file_path, 'w', encoding='utf-8') as f:
-            json.dump(self.data, f, indent="\t", ensure_ascii=False)
 
     def edit_document(self):
         edit_messages = [self.make_message("system", EDIT_PROMPT)]
@@ -272,16 +288,10 @@ class BiRAGAgent():
         if action_type == "reset":
             self.reset_history()
             return "대화 기록이 삭제되었습니다."
-        elif action_type == "normal":
-            stream = self.gpt_agent_stream()
-            return stream
-        elif action_type == "search":
-            search_target, data, info = self.search_document()
-            self.data = data
-            self.info = info
+        elif action_type == "QA":
             utils.print_log(f"search_target: {self.search_target}")
-            stream = self.answer_Q(search_target, data)
-            return stream
+            answer = self.answer_Q()
+            return answer
         elif action_type == "edit":
             return self.edit_document()
 

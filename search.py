@@ -28,4 +28,4 @@ class EmbeddingFaiss():
             data = json.load(f)
         info = self.info_maker(data)
         print(data)
-        return info, data
+        return document, info, data
