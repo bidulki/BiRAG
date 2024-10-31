@@ -56,10 +56,13 @@ for data in valid_dataset['test']:
     request = data['request']
     answer = data['answer']
     agent = BiRAGAgent(explorer, document_dict, document)
-    print(agent(question))
-    print(agent(request))
-    print(agent("대화 기록을 삭제 해줘"))
-    predict = agent(question)
+    try:
+        print(agent(question))
+        print(agent(request))
+        print(agent("대화 기록을 삭제 해줘"))
+        predict = agent(question)
+    except:
+        predict = "halted"
     answer_list.append(answer)
     predict_list.append(predict)
     print(f"predict: {predict}")
@@ -68,12 +71,6 @@ for data in valid_dataset['test']:
         print("정답")
     else:
         print("오답")
-    for key in document_dict.keys():
-        document = document_dict[key]
-        document_path = os.path.join("./DB", document)
-        original_path = os.path.join("./DB/faiss_index", document)
-        os.remove(document_path)
-        shutil.copyfile(original_path, document_path)
 
 df['predict'] = predict_list
 df['answer'] = answer_list

@@ -3,14 +3,49 @@ from openai import OpenAI
 from typing import Literal
 import copy
 import json
-import utils
 import os
 
 ANSWER_PROMPT = """
 당신은 사용자에게 유용한 정보를 제공하는 AI 어시스턴트이다.
 당신은 사용자의 질문에 대해 문서의 내용을 보고 답변을 해야한다.
-답변은 답에 해당하는 한 단어만 출력한다.
-만약 문서에서 답을 찾을 수 없을 경우 답변으로 UNKNOWN을 출력해라.
+답변은 무조건 문서에 있는 내용으로 답해야 한다.
+문서에 없는 내용을 답변으로 할 수 없으며, 문서에서 답을 찾을 수 없을 경우 답변으로 UNKNOWN을 출력해라.
+답변은 답에 해당하는 한 단어 또는 단어 리스트를 출력한다.
+<예시>
+    <문서>
+    일론 머스크
+    본명: 일론 리브 머스크
+    출생: 1973년 7월 3일
+    국적: 남아프리카 공화국, 
+        캐나다, 
+        미국
+    부모: 메이 머스크(어머니),
+        데미안 머스크(아버지)
+    <문서 끝>
+
+    <질문&답변>
+    질문: 일론 머스크의 출생일은? 
+    답변: 1973년 7월 3일
+
+    질문: 일론 머스크의 생일은? 
+    답변: 7월 3일
+
+    질문: 일론 머스크의 출생년도는? 
+    답변: 1973년
+
+    질문: 일론 머스크의 아버지는?
+    답변: 데미안 머스크
+
+    질문: 일론 머스크의 국적은?
+    답변: 남아프리카 공화국, 캐나다, 미국
+
+    질문: 일론 머스크의 배우자는?
+    답변: UNKNOWN
+
+    질문: 일론 머스크의 회사는?
+    답변: UNKNOWN
+    <질문&답변 끝>
+<예시 끝>
 """
 
 ACTION_PROMPT = """
@@ -289,7 +324,6 @@ class BiRAGAgent():
             self.reset_history()
             return "대화 기록이 삭제되었습니다."
         elif action_type == "QA":
-            utils.print_log(f"search_target: {self.search_target}")
             answer = self.answer_Q()
             return answer
         elif action_type == "edit":
