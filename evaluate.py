@@ -46,8 +46,10 @@ for key in document_dict.keys():
     os.remove(document_path)
     shutil.copyfile(original_path, document_path)
 
+first_answer_list = []
 answer_list = []
 predict_list = []
+
 df = pd.DataFrame()
 
 for data in valid_dataset['test']:
@@ -56,23 +58,36 @@ for data in valid_dataset['test']:
     request = data['request']
     answer = data['answer']
     agent = BiRAGAgent(explorer, document_dict, document)
-    try:
-        print(agent(question))
-        print(agent(request))
-        print(agent("대화 기록을 삭제 해줘"))
-        predict = agent(question)
-    except:
-        predict = "halted"
-    answer_list.append(answer)
-    predict_list.append(predict)
-    print(f"predict: {predict}")
-    print(f"answer: {answer}")
-    if answer.lower() == predict.lower():
-        print("정답")
-    else:
-        print("오답")
+    print(agent.info)
+    # try:
+    #     first_answer = agent(question)
+    #     print(f"first_answer: {first_answer}")
+    #     print(agent(request))
+    #     agent.reset_history()
+    #     predict = agent(question)
+    # except:
+    #     first_answer = "halted"
+    #     predict = "halted"
+    # first_answer_list.append(first_answer)
+    # answer_list.append(answer)
+    # predict_list.append(predict)
+    # print(f"predict: {predict}")
+    # print(f"answer: {answer}")
+    # if answer.lower() == predict.lower():
+    #     print("정답")
+    # else:
+    #     print("오답")
+    
+    # for key in document_dict.keys():
+    #     document = document_dict[key]
+    #     document_path = os.path.join("./DB", document)
+    #     original_path = os.path.join("./DB/faiss_index", document)
+    #     os.remove(document_path)
+    #     shutil.copyfile(original_path, document_path)
+    break
 
-df['predict'] = predict_list
-df['answer'] = answer_list
+# df['predict'] = predict_list
+# df['answer'] = answer_list
+# df['first_answer'] = first_answer_list
 
-df.to_csv("result.tsv", sep="\t", index=False)
+# df.to_csv("result_r_5_mini.tsv", sep="\t", index=False)

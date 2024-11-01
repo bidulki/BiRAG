@@ -160,7 +160,8 @@ class EmbeddingFaiss():
 class BiRAGAgent():
     def __init__(self, explorer, document_dict, search_target):
         self.client = OpenAI()
-        self.model = "gpt-4o-2024-08-06"
+        # self.model = "gpt-4o-2024-08-06"
+        self.model ="gpt-4o-mini"
         self.search_engine = EmbeddingFaiss(explorer, document_dict, "./DB")
         self.history = []
         self.search_target = search_target
@@ -199,7 +200,8 @@ class BiRAGAgent():
         action_messages = [self.make_message("system", ACTION_PROMPT)]
         for history in self.history:
             action_messages.append(history)
-        action_type = self.gpt_agent_pydantic(action_messages, ActionResponse).action
+        response = self.gpt_agent_pydantic(action_messages, ActionResponse)
+        action_type = response.action
         return action_type
     
     def answer_Q(self):
@@ -211,7 +213,7 @@ class BiRAGAgent():
         self.history.append(self.make_message("assistant", answer))
         return answer
 
-    def create_pathfinder_schema(self, subtitle_candidates):
+    def create_pathfinder_schema(self, next_path_candidates):
         response_format = {
             "type": "json_schema",
             "json_schema": {
@@ -221,8 +223,9 @@ class BiRAGAgent():
                     "properties": {
                         "path": {
                             "type": "string",
-                            "description": "현재 위치에서 문서에서 수정/삭제/추가 해야하는 위치에 도달하기 위한 다음 경로",
-                            "enum": list(subtitle_candidates)  # Convert to list here
+                            "description": "현재 위치에서 문서에서 수정/삭제/추가를 \
+                                  해야하는 위치에 도달하기 위한 다음 경로",
+                            "enum": list(next_path_candidates) 
                         },
                         "action": {
                             "type": "string",

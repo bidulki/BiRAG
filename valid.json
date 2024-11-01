@@ -93,9 +93,9 @@
 		},
 		{
 			"document": "박지성",
-			"question": "박지성이 대표팀에서 어떤 역할을 했는지 알려줘.",
-			"request": "박지성은 대표팀에서 주장이 아니었으며 일반 선수로 뛰었어요. 이를 수정해줘.",
-			"answer": "일반 선수",
+			"question": "박지성은 몇년 동안 혼자 축구를 했어?",
+			"request": "아니야, 박지성은 3년 동안 혼자 축구를 했어.",
+			"answer": "3년",
 			"action": "change"
 		},
 		{
@@ -149,17 +149,17 @@
 		},
 		{
 			"document": "켄 톰프슨",
-			"question": "켄 톰프슨의 주요 업적 중에 어떤 프로그래밍 언어를 개발했나요?",
-			"request": "켄 톰프슨이 B 언어가 아니라 A 언어를 개발했으므로 이 정보를 문서에 수정해주세요.",
+			"question": "켄 톰프슨이 개발한 c언의 모체가 된 언어가 뭐야?",
+			"request": "켄 톰프슨이 개발한 언어는 B언어가 아니라 A언어야 수정해줘.",
 			"answer": "A",
-			"action": "add"
+			"action": "change"
 		},
 		{
 			"document": "켄 톰프슨",
-			"question": "켄 톰프슨이 개발한 운영 체제 중 하나는 무엇인가요?",
-			"request": "켄 톰프슨이 개발한 Plan 9 운영 체제를 문서에서 삭제해주세요.",
-			"answer": "UNKNOWN",
-			"action": "delete"
+			"question": "켄 톰프슨이 벨 연구소에서 개발한 운영 체제를 알려줘",
+			"request": "켄 톰프슨이 개발한 Plan 9 운영 체제에 대한 내용을 삭제하세요.",
+			"answer": "유닉스",
+			"action": "change"
 		},
 		{
 			"document": "켄 톰프슨",
@@ -184,10 +184,10 @@
 		},
 		{
 			"document": "데니스 리치",
-			"question": "데니스 리치가 어떤 언어를 개발했나요?",
-			"request": "데니스 리치가 개발한 언어 정보인 Altran에 대해 삭제해주세요.",
-			"answer": "UNKNOWN",
-			"action": "delete"
+			"question": "데니스 리치와 함께 The C Programming Language를 작성한 사람은 누구야?",
+			"request": "아니야, 데니스 리치와 함께 The C Programming Language를 작성한 사람은 켄 톰프슨이야.",
+			"answer": "켄 톰프슨",
+			"action": "change"
 		},
 		{
 			"document": "데니스 리치",
@@ -240,7 +240,7 @@
 		},
 		{
 			"document": "크리스토퍼 콜럼버스",
-			"question": "콜럼버스의 2차 항해 중 탐사한 지역은 어디인가요?",
+			"question": "콜럼버스는 2차 항해 중 탐사한 지역을 어디로 기록했나요?",
 			"request": "콜럼버스가 2차 항해 중 자신이 탐사했던 지역이 당시 인도라고 기록된 것처럼 내용을 바꿔 주세요.",
 			"answer": "인도",
 			"action": "change"
@@ -296,16 +296,16 @@
 		},
 		{
 			"document": "토마스 에디슨",
-			"question": "토마스 에디슨의 주요 업적은 무엇인가요?",
-			"request": "주요 업적인 '에디슨 효과' 정보를 삭제해줘.",
-			"answer": "UNKNOWN",
-			"action": "delete"
+			"question": "토마스 에디슨의 미국 특허 개수는 몇개야?",
+			"request": "얼마전에, 새로운 특허가 발견되서 에디슨의 미국 특허 개수는 1095개로 밝혀졌어.",
+			"answer": "1095",
+			"action": "change"
 		},
 		{
 			"document": "토마스 에디슨",
 			"question": "토마스 에디슨의 출생 연도를 알려줘",
-			"request": "토마스 에디슨은 1940년에 태어났다고 문서 내용을 수정해줘.",
-			"answer": "1940년",
+			"request": "토마스 에디슨은 1840년에 태어났다고 문서 내용을 수정해줘.",
+			"answer": "1840년",
 			"action": "change"
 		},
 		{
@@ -317,17 +317,17 @@
 		},
 		{
 			"document": "한강 (작가)",
-			"question": "한강의 소속 대학을 알려줘",
-			"request": "한강은 서울예술대학 문예창작과 전임교수로 재직했었으니 그 내용을 문서에 넣어주세요.",
+			"question": "한강의 현재 소속 대학을 알려줘",
+			"request": "한강은 서울예술대학 전임교수로 재직하고 있어, 그 내용을 문서에 넣어주세요.",
 			"answer": "서울예술대학",
 			"action": "add"
 		},
 		{
 			"document": "한강 (작가)",
-			"question": "한강 작가의 아버지",
-			"request": "한강 작가의 주요 작품 정보를 삭제해 주세요.",
-			"answer": "UNKNOWN",
-			"action": "delete"
+			"question": "한강 작가가 2024년에 받은 상을 알려주세요.",
+			"request": "에밀 기메 아시아 문학상은 2023년에 수상했어 수정해줘.",
+			"answer": "노벨 문학상",
+			"action": "change"
 		},
 		{
 			"document": "한강 (작가)",
@@ -485,9 +485,9 @@
 		},
 		{
 			"document": "서울대학교",
-			"question": "서울대학교의 캠퍼스들에 대해 더 알고 싶어요.",
-			"request": "서울대학교 캠퍼스에는 '부산캠퍼스'라는 새로운 캠퍼스를 추가해 주세요.",
-			"answer": "부산캠퍼스",
+			"question": "서울대학교의 캠퍼스들 중에 경상도에 위치한 캠퍼스를 알려줘.",
+			"request": "서울대학교 캠퍼스에는 '대구캠퍼스'라는 새로운 캠퍼스를 추가해 주세요.",
+			"answer": "대구캠퍼스",
 			"action": "add"
 		},
 		{
@@ -542,15 +542,15 @@
 		{
 			"document": "찰스 다윈",
 			"question": "찰스 다윈의 첫 번째 주요 저서는 무엇인가요?",
-			"request": "찰스 다윈의 저서에 이기적 유전자 (The Selfish Gene, 1840, London)",
+			"request": "너의 답변은 찰스 다윈의 저서에 이기적 유전자 (The Selfish Gene, 1840, London)를 빠뜨린거 같아.",
 			"answer": "이기적 유전자",
 			"action": "add"
 		},
 		{
 			"document": "찰스 다윈",
 			"question": "다윈이 인간과 동물의 감정 표현이 집필한 시기를 알려줘",
-			"request": "다윈이 인간과 동물의 감정 표현이 집필한 시기를 1883년으로 바꿔줘",
-			"answer": "1883년",
+			"request": "다윈이 인간과 동물의 감정 표현이 집필한 시기를 1873년으로 바꿔줘",
+			"answer": "1873년",
 			"action": "change"
 		},
 		{
@@ -674,10 +674,10 @@
 		},
 		{
 			"document": "SK 하이닉스",
-			"question": "SK하이닉스의 산업 분야는 무엇인가요?",
-			"request": "산업 분야에 대한 정보를 삭제해주세요.",
-			"answer": "UNKNOWN",
-			"action": "delete"
+			"question": "SK하이닉스는 RAM 제조사 중 세계 몇위야?",
+			"request": "최근에 SK하이닉스가 엄청난 성과를 이뤄서 1위로 바뀌었어.",
+			"answer": "1위",
+			"action": "change"
 		},
 		{
 			"document": "SK 하이닉스",
