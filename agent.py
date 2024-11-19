@@ -42,29 +42,13 @@ CHANGE_PROMPT = """
 수정이 완료된 문장을 change_text에 넣고, 그 위치를 idx로 지정해라.
 """
 
+with open("./document.json", 'r') as f:
+    document_json = json.load(f)
 
-title2path = {
-    "오타니 쇼헤이": "./DB/docs_0.json",
-    "손흥민": "./DB/docs_1.json",
-    "박지성": "./DB/docs_2.json",
-    "크리스티아누 호날두": "./DB/docs_3.json",
-    "켄 톰프슨": "./DB/docs_4.json",
-    "데니스 리치": "./DB/docs_5.json",
-    "크리스토퍼 콜럼버스": "./DB/docs_6.json",
-    "니콜라 테슬라": "./DB/docs_7.json",
-    "토마스 에디슨": "./DB/docs_8.json",
-    "한강 (작가)": "./DB/docs_9.json",
-    "삼성전자": "./DB/docs_10.json",
-    "LG전자": "./DB/docs_11.json",
-    "성균관대학교": "./DB/docs_12.json",
-    "서울대학교": "./DB/docs_13.json",
-    "다이제": "./DB/docs_14.json",
-    "찰스 다윈": "./DB/docs_15.json",
-    "마하트마 간디": "./DB/docs_16.json",
-    "조지 워싱턴": "./DB/docs_17.json",
-    "마틴 루터 킹": "./DB/docs_18.json",
-    "SK 하이닉스": "./DB/docs_19.json"
-}
+title2path = {}
+for document in document_json.keys():
+    title2path[document] = document_json[document]['file_path']    
+
 
 class ActionResponse(BaseModel):
     action: Literal["reset", "normal", "search", "edit",]
