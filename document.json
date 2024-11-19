@@ -1,0 +1,102 @@
+{
+    "오타니 쇼헤이": {
+        "file_name": "docs_0.json",
+        "file_path": "./DB/docs_0.json",
+        "backup_path": "./document_backup_0.json"
+    },
+    "손흥민": {
+        "file_name": "docs_1.json",
+        "file_path": "./DB/docs_1.json",
+        "backup_path": "./document_backup_1.json"
+    },
+    "박지성": {
+        "file_name": "docs_2.json",
+        "file_path": "./DB/docs_2.json",
+        "backup_path": "./document_backup_2.json"
+    },
+    "크리스티아누 호날두": {
+        "file_name": "docs_3.json",
+        "file_path": "./DB/docs_3.json",
+        "backup_path": "./document_backup_3.json"
+    },
+    "켄 톰프슨": {
+        "file_name": "docs_4.json",
+        "file_path": "./DB/docs_4.json",
+        "backup_path": "./document_backup_4.json"
+    },
+    "데니스 리치": {
+        "file_name": "docs_5.json",
+        "file_path": "./DB/docs_5.json",
+        "backup_path": "./document_backup_5.json"
+    },
+    "크리스토퍼 콜럼버스": {
+        "file_name": "docs_6.json",
+        "file_path": "./DB/docs_6.json",
+        "backup_path": "./document_backup_6.json"
+    },
+    "니콜라 테슬라": {
+        "file_name": "docs_7.json",
+        "file_path": "./DB/docs_7.json",
+        "backup_path": "./document_backup_7.json"
+    },
+    "토마스 에디슨": {
+        "file_name": "docs_8.json",
+        "file_path": "./DB/docs_8.json",
+        "backup_path": "./document_backup_8.json"
+    },
+    "한강 (작가)": {
+        "file_name": "docs_9.json",
+        "file_path": "./DB/docs_9.json",
+        "backup_path": "./document_backup_9.json"
+    },
+    "삼성전자": {
+        "file_name": "docs_10.json",
+        "file_path": "./DB/docs_10.json",
+        "backup_path": "./document_backup_10.json"
+    },
+    "LG전자": {
+        "file_name": "docs_11.json",
+        "file_path": "./DB/docs_11.json",
+        "backup_path": "./document_backup_11.json"
+    },
+    "성균관대학교": {
+        "file_name": "docs_12.json",
+        "file_path": "./DB/docs_12.json",
+        "backup_path": "./document_backup_12.json"
+    },
+    "서울대학교": {
+        "file_name": "docs_13.json",
+        "file_path": "./DB/docs_13.json",
+        "backup_path": "./document_backup_13.json"
+    },
+    "다이제": {
+        "file_name": "docs_14.json",
+        "file_path": "./DB/docs_14.json",
+        "backup_path": "./document_backup_14.json"
+    },
+    "찰스 다윈": {
+        "file_name": "docs_15.json",
+        "file_path": "./DB/docs_15.json",
+        "backup_path": "./document_backup_15.json"
+    },
+    "마하트마 간디": {
+        "file_name": "docs_16.json",
+        "file_path": "./DB/docs_16.json",
+        "backup_path": "./document_backup_16.json"
+    },
+    "조지 워싱턴": {
+        "file_name": "docs_17.json",
+        "file_path": "./DB/docs_17.json",
+        "backup_path": "./document_backup_17.json"
+    },
+    "마틴 루터 킹": {
+        "file_name": "docs_18.json",
+        "file_path": "./DB/docs_18.json",
+        "backup_path": "./document_backup_18.json"
+    },
+    "SK 하이닉스": {
+        "file_name": "docs_19.json",
+        "file_path": "./DB/docs_19.json",
+        "backup_path": "./document_backup_19.json"
+    },
+}
