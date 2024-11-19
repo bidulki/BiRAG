@@ -13,5 +13,3 @@ embeddings = [embedding_model.embed_query(doc) for doc in documents]
 faiss_index = FAISS.from_texts(documents, embedding_model)
 
 faiss_index.save_local("./DB/faiss_index")
-
-print(faiss_index.similarity_search("성대", k=1)[0].page_content)
